@@ -6,17 +6,11 @@ require 'httparty'
 require 'pry'
 require 'pg'
 
-post '/api' do
-    name = params['name']
-    salary= params['salary'].to_i
-    hash = { 'monthly_payslip' => generate_monthly_payslip(name, salary ) }
-    monthly_income_tax = hash["monthly_payslip"]["monthly_income_tax"]
-    
-    return json(hash)
-  
-    # binding.pry
-    # # JSON.parse(hash)
-    
+def run_sql(sql) 
+    db =PG.connect(dbname: 'employees_db')
+    employees = db.exec(sql)
+    db.close
+    return employees
 end
 
 get '/' do
@@ -36,4 +30,21 @@ get '/' do
         monthly_income_tax: monthly_income_tax,
         net_monthly_income: net_monthly_income,
     }
+end
+
+
+post '/api' do
+    name = params['name']
+    salary= params['salary'].to_i
+    hash = { 'monthly_payslip' => generate_monthly_payslip(name, salary ) }
+    monthly_income_tax = hash["monthly_payslip"]["monthly_income_tax"]
+    time_date = Time.now.strftime("%c")
+
+    run_sql("INSERT INTO employees(submission_time, name, annual_salary, monthly_income_tax) VALUES('#{time_date}','#{name}','#{salary}','#{monthly_income_tax}')")
+  
+ 
+    return json(hash)
+    # binding.pry
+    # # JSON.parse(hash)
+    
 end
