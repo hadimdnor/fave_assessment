@@ -18,7 +18,7 @@
             # 180001 and above	40%
             # Sample Tax Computation 1
             # Annual Salary 60000
-    # 5. pseudi code: 
+    # 5. pseudocode: 
             # 1. create function named genreate monthly payslip. whcih the fucntion will output in console as follows:
                     # Monthly Payslip for: "Ren"
                     # Gross Monthly Income: $5000.00
