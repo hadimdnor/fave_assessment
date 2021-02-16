@@ -48,3 +48,19 @@ post '/api' do
     # # JSON.parse(hash)
     
 end
+
+get '/db' do
+    db_result = run_sql("SELECT * FROM  employees ORDER BY id")
+    db_employees = db_result.to_a
+ 
+   # hash = db_employees.each do |employee|
+   #     data = {
+   #         "submission_time"=> employee['submission_time'],
+   #         "name"=> employee['name'],
+   #         "annual_salary"=> employee['annual_salary'],
+   #         "monthly_income_tax"=> employee['monthly_income_tax']
+   #     }
+   # end
+   return json({"Salary Computation"  => db_employees})
+   
+end
